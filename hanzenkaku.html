@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HanZenKaku</title>
+<script src="hanzenkaku.js"></script>
+<style>
+#hanzen textarea{ width:80%; height:4em; font-family:monospace}
+</style>
+</head>
+<body>
+<dl id="hanzen">
+<dt>Zenkaku</dt>
+<dd><textarea id="zenkaku"></textarea></dd>
+<dt>Hankaku</dt>
+<dd><textarea id="hankaku"></textarea></dd>
+</dl>
+<script>
+(function(d){
+    d.getElementById('zenkaku').addEventListener('keyup', function(){
+        d.getElementById('hankaku').value = this.value.toHankaku();
+    });
+    d.getElementById('hankaku').addEventListener('keyup', function(){
+        d.getElementById('zenkaku').value = this.value.toZenkaku();
+    });
+})(document);
+</script>
+</body>
+</html>
