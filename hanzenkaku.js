@@ -6,6 +6,7 @@
  */
 
 (function(global){
+    // hankaku <-> zenkaku
     var re_h2z = new RegExp(
         '(?:' + [
             '[｡｢｣･ｦｧｨｩｪｫｬｭｮｯｰｱｲｴｵﾅﾆﾇﾈﾉﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ]',
@@ -46,28 +47,66 @@
         return r;
     };
     var o_h2z = objectReverse(o_z2h);
-    var offset_fw = 0xFF01 - 0x0021;
-    var f_fw2hw = function(str){
-        return str.replace(/[\uFF01-\uFF5E]/g, function(m){
-                return String.fromCharCode(m.charCodeAt(0) - offset_fw);
-            });
-    }
-    var f_hw2fw = function(str){
-        return str.replace(/[\u0021-\u007E]/g, function(m){
-                return String.fromCharCode(m.charCodeAt(0) + offset_fw);
-            });
-    }
     var f_h2z = function(str){
         return str.replace(re_h2z, function(m){return o_h2z[m]});
     };
     var f_z2h = function(str){
         return str.replace(re_z2h, function(m){return o_z2h[m]});
     };
+    // halfwidth <-> fullwidth
+    var o_hw2fw = {
+        '\u2985':'\uFF5F', // LEFT WHITE PARENTHESIS
+        '\u2986':'\uFF60', // RIGHT WHITE PARENTHESIS
+        '\u00A2':'\uFFE0', // CENT SIGN
+        '\u00A3':'\uFFE1', // POUND SIGN
+        '\u00AC':'\uFFE2', // NOT SIGN
+        '\u00AF':'\uFFE3', // MACRON
+        '\u00A6':'\uFFE4', // BROKEN BAR
+        '\u00A5':'\uFFE5', // YEN SIGN
+        '\u20A9':'\uFFE6'  // WON SIGN
+    };
+    (function(o){
+        for (var i = 0x21; i <= 0x7E; i++) {
+            o[String.fromCharCode(i)] = String.fromCharCode(i + 0xFF00-0x20);
+        }
+    })(o_hw2fw);
+    var re_hw2fw = /[\x21-\x7E\u2985\u2986\xA2\xA3\xAC\xAF\xA6\xA5\u20A9]/g;
+    var o_fw2hw = objectReverse(o_hw2fw);
+    var re_fw2hw = /[\uFF01-\uFFE6]/g;
+    var f_hw2fw = function(str){
+        return str.replace(re_hw2fw, function(m){return o_hw2fw[m]});
+    }
+    var f_fw2hw = function(str){
+        return str.replace(re_fw2hw, function(m){return o_fw2hw[m]});
+    }
+    var f_fs2hs = function(str){ return str.replace(/\u3000/g, ' '); }
+    var f_hs2fs = function(str){ return str.replace(/ /g, '\u3000'); }
+    // katakana <-> hiragana
+    var o_h2k = (function(){
+            var o = {};
+            for (var i = 0x3041; i <= 0x3094; i++){
+                o[String.fromCharCode(i)] 
+                    = String.fromCharCode(i - 0x3040 + 0x30A0);
+            }
+            return o
+        })();
+    var o_k2h = objectReverse(o_h2k);
+    var f_h2k = function(str){
+        return str.replace(/[ぁ-ゔ]/g, function(m){ return o_h2k[m]});
+    };
+    var f_k2h = function(str){
+        return str.replace(/[ァ-ヴ]/g, function(m){return o_k2h[m]});
+    };
+    // export
     global.HanZenKaku = global.HanZenKaku || {
         h2z:f_h2z,
         z2h:f_z2h,
         fw2hw:f_fw2hw,
-        hw2fw:f_hw2fw
+        hw2fw:f_hw2fw,
+        fs2hs:f_fs2hs,
+        hs2fs:f_hs2fs,
+        h2k:f_h2k,
+        k2h:f_k2h
     };
     /*
      * Extend String.prototype iff ES5 is available
@@ -82,6 +121,10 @@
         toZenkaku:function(){return f_h2z(this)},
         toHankaku:function(){return f_z2h(this)},
         toFullwidth:function(){return f_hw2fw(this)},
-        toHalfwidth:function(){return f_fw2hw(this)}
+        toHalfwidth:function(){return f_fw2hw(this)},
+        toFullwidthSpace:function(){return f_hs2fs(this)},
+        toHalfwidthSpace:function(){return f_fs2hs(this)},
+        toKatakana:function(){return f_h2k(this)},
+        toHiragana:function(){return f_k2h(this)}
     });
 })(this);
