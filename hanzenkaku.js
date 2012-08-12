@@ -1,5 +1,5 @@
 /*
- * $Id: hanzenkaku.js,v 0.4 2012/08/12 20:07:48 dankogai Exp dankogai $
+ * $Id: hanzenkaku.js,v 0.5 2012/08/12 22:17:15 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
@@ -9,12 +9,12 @@
     // hankaku <-> zenkaku
     var re_h2z = new RegExp(
         '(?:' + [
-            '[\uFF61\uFF62\uFF63\uFF65\uFF66\uFF67\uFF68\uFF69\uFF6A\uFF6B'
-            + '\uFF6C\uFF6D\uFF6E\uFF6F\uFF70\uFF71\uFF72\uFF74\uFF75\uFF85'
-            + '\uFF86\uFF87\uFF88\uFF89\uFF8F\uFF90\uFF91\uFF92\uFF93\uFF94'
-            + '\uFF95\uFF96\uFF97\uFF98\uFF99\uFF9A\uFF9B\uFF9C\uFF9D]',
-            '[\uFF73\uFF76\uFF77\uFF78\uFF79\uFF7A\uFF7B\uFF7C\uFF7D\uFF7E'
-            + '\uFF7F\uFF80\uFF81\uFF82\uFF83\uFF84][\uFF9E]?',
+            '[\uFF61\uFF62\uFF63\uFF65\uFF66\uFF67\uFF68\uFF69\uFF6A\uFF6B' +
+            '\uFF6C\uFF6D\uFF6E\uFF6F\uFF70\uFF71\uFF72\uFF74\uFF75\uFF85' +
+            '\uFF86\uFF87\uFF88\uFF89\uFF8F\uFF90\uFF91\uFF92\uFF93\uFF94' +
+            '\uFF95\uFF96\uFF97\uFF98\uFF99\uFF9A\uFF9B\uFF9C\uFF9D]',
+            '[\uFF73\uFF76\uFF77\uFF78\uFF79\uFF7A\uFF7B\uFF7C\uFF7D\uFF7E' +
+            '\uFF7F\uFF80\uFF81\uFF82\uFF83\uFF84][\uFF9E]?',
             '[\uFF8A\uFF8B\uFF8C\uFF8D\uFF8E][\uFF9E\uFF9F]?'
             ].join('|') + ')', 'g'
         );
@@ -146,7 +146,8 @@
     };
     (function(o) {
         for (var i = 0x21; i <= 0x7E; i++) {
-            o[String.fromCharCode(i)] = String.fromCharCode(i + 0xFF00 - 0x20);
+            o[String.fromCharCode(i)] =
+                String.fromCharCode(i + 0xFF00 - 0x20);
         }
     })(o_hw2fw);
     var re_hw2fw = /[\x21-\x7E\u2985\u2986\xA2\xA3\xAC\xAF\xA6\xA5\u20A9]/g;
@@ -164,14 +165,14 @@
     var o_h2k = (function() {
             var o = {};
             for (var i = 0x3041; i <= 0x3094; i++) {
-                o[String.fromCharCode(i)]
-                    = String.fromCharCode(i - 0x3040 + 0x30A0);
+                o[String.fromCharCode(i)] =
+                    String.fromCharCode(i - 0x3040 + 0x30A0);
             }
             return o;
         })();
     var o_k2h = objectReverse(o_h2k);
     var f_h2k = function(str) {
-        return str.replace(/[\u3041-\u3094]/g, function(m) { return o_h2k[m]});
+        return str.replace(/[\u3041-\u3094]/g, function(m) {return o_h2k[m]});
     };
     var f_k2h = function(str) {
         return str.replace(/[\u30A1-\u30F4]/g, function(m) {return o_k2h[m]});
@@ -190,20 +191,19 @@
     /*
      * Extend String.prototype iff ES5 is available
      */
-    if (typeof(Object.defineProperty) !== 'function') return;
-    (function(o) {
-        var target = String.prototype;
-        for (var p in o) if (!target[p]) Object.defineProperty(target,
-            p, {value: o[p], enumerable: false}
+    if (typeof(Object.defineProperty) === 'function') (function(obj, meth) {
+            var f2m = function(f) { return function() { return f(this) } };
+            for (var k in meth) if (!obj[k]) Object.defineProperty(
+                obj, k, {value: f2m(meth[k]), enumerable: false}
         );
-    })({
-        toZenkaku: function() {return f_h2z(this)},
-        toHankaku: function() {return f_z2h(this)},
-        toFullwidth: function() {return f_hw2fw(this)},
-        toHalfwidth: function() {return f_fw2hw(this)},
-        toFullwidthSpace: function() {return f_hs2fs(this)},
-        toHalfwidthSpace: function() {return f_fs2hs(this)},
-        toKatakana: function() {return f_h2k(this)},
-        toHiragana: function() {return f_k2h(this)}
+    })(String.prototype, {
+        toZenkaku: f_h2z,
+        toHankaku: f_z2h,
+        toFullwidth: f_hw2fw,
+        toHalfwidth: f_fw2hw,
+        toFullwidthSpace: f_hs2fs,
+        toHalfwidthSpace: f_fs2hs,
+        toKatakana: f_h2k,
+        toHiragana: f_k2h
     });
 })(this);
