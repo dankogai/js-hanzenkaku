@@ -27,7 +27,7 @@ exteneded as follows:
     'dankogai'.toFullwidth();         // HanZenKaku.hw2fw('dankogai')
     'ｄａｎｋｏｇａｉ'.toHalfwidth(); // HanZenKaku.fw2hw('ｄａｎｋｏｇａｉ')
     'a　space'.toHalfwidthSpace();    // HanZenKaku.fs2hs('a　space')
-    'a space'.toFullWidthSpace();     // HanZenKaku.hs2fs('a space')
+    'a space'.toFullwidthSpace();     // HanZenKaku.hs2fs('a space')
     'こがいだん'.toKatakana();        // HanZenKaku.h2k('こがいだん')
     'コガイダン'.toHiragana();        // HanZenKaku.k2h('コガイダン')
 
