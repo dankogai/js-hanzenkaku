@@ -1,5 +1,5 @@
 /*
- * $Id: hanzenkaku.js,v 0.1 2012/08/12 15:44:24 dankogai Exp dankogai $
+ * $Id: hanzenkaku.js,v 0.2 2012/08/12 16:31:40 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
@@ -46,6 +46,17 @@
         return r;
     };
     var o_h2z = objectReverse(o_z2h);
+    var offset_fw = 0xFF01 - 0x0021;
+    var f_fw2hw = function(str){
+        return str.replace(/[\uFF01-\uFF5E]/g, function(m){
+                return String.fromCharCode(m.charCodeAt(0) - offset_fw);
+            });
+    }
+    var f_hw2fw = function(str){
+        return str.replace(/[\u0021-\u007E]/g, function(m){
+                return String.fromCharCode(m.charCodeAt(0) + offset_fw);
+            });
+    }
     var f_h2z = function(str){
         return str.replace(re_h2z, function(m){return o_h2z[m]});
     };
@@ -54,8 +65,13 @@
     };
     global.HanZenKaku = global.HanZenKaku || {
         h2z:f_h2z,
-        z2h:f_z2h
+        z2h:f_z2h,
+        fw2hw:f_fw2hw,
+        hw2fw:f_hw2fw
     };
+    /*
+     * Extend String.prototype iff ES5 is available
+     */ 
     if (typeof(Object.defineProperty) !== 'function') return;
     (function(o){
         var target = String.prototype;
@@ -64,6 +80,8 @@
         );
     })({
         toZenkaku:function(){return f_h2z(this)},
-        toHankaku:function(){return f_z2h(this)}
+        toHankaku:function(){return f_z2h(this)},
+        toFullwidth:function(){return f_hw2fw(this)},
+        toHalfwidth:function(){return f_fw2hw(this)}
     });
 })(this);
