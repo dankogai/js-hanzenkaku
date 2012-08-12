@@ -1,5 +1,5 @@
 /*
- * $Id: hanzenkaku.js,v 0.5 2012/08/12 22:17:15 dankogai Exp dankogai $
+ * $Id: hanzenkaku.js,v 0.6 2012/08/12 23:12:11 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
@@ -9,15 +9,19 @@
     // hankaku <-> zenkaku
     var re_h2z = new RegExp(
         '(?:' + [
-            '[\uFF61\uFF62\uFF63\uFF65\uFF66\uFF67\uFF68\uFF69\uFF6A\uFF6B' +
-            '\uFF6C\uFF6D\uFF6E\uFF6F\uFF70\uFF71\uFF72\uFF74\uFF75\uFF85' +
-            '\uFF86\uFF87\uFF88\uFF89\uFF8F\uFF90\uFF91\uFF92\uFF93\uFF94' +
-            '\uFF95\uFF96\uFF97\uFF98\uFF99\uFF9A\uFF9B\uFF9C\uFF9D]',
-            '[\uFF73\uFF76\uFF77\uFF78\uFF79\uFF7A\uFF7B\uFF7C\uFF7D\uFF7E' +
-            '\uFF7F\uFF80\uFF81\uFF82\uFF83\uFF84][\uFF9E]?',
+            '[',
+            '\uFF61\uFF62\uFF63\uFF65\uFF66\uFF67\uFF68\uFF69\uFF6A\uFF6B',
+            '\uFF6C\uFF6D\uFF6E\uFF6F\uFF70\uFF71\uFF72\uFF74\uFF75\uFF85',
+            '\uFF86\uFF87\uFF88\uFF89\uFF8F\uFF90\uFF91\uFF92\uFF93\uFF94',
+            '\uFF95\uFF96\uFF97\uFF98\uFF99\uFF9A\uFF9B\uFF9C\uFF9D',
+            ']', '|',
+            '[',
+            '\uFF73\uFF76\uFF77\uFF78\uFF79\uFF7A\uFF7B\uFF7C\uFF7D\uFF7E',
+            '\uFF7F\uFF80\uFF81\uFF82\uFF83\uFF84',
+            ']', '[\uFF9E]?', '|',
             '[\uFF8A\uFF8B\uFF8C\uFF8D\uFF8E][\uFF9E\uFF9F]?'
-            ].join('|') + ')', 'g'
-        );
+        ].join('') + ')', 'g'
+    );
     var re_z2h = new RegExp(
         '(?:[' + [
             '\u3002\u300C\u300D\u30A1\u30A2\u30A3\u30A4\u30A5\u30A6\u30A7',
@@ -29,8 +33,8 @@
             '\u30DA\u30DB\u30DC\u30DD\u30DE\u30DF\u30E0\u30E1\u30E2\u30E3',
             '\u30E4\u30E5\u30E6\u30E7\u30E8\u30E9\u30EA\u30EB\u30EC\u30ED',
             '\u30EF\u30F2\u30F3\u30F4\u30FB\u30FC'
-            ].join('') + '])', 'g'
-        );
+        ].join('') + '])', 'g'
+    );
     var o_z2h = {
         '\u3002': '\uFF61',
         '\u300C': '\uFF62',
@@ -163,13 +167,13 @@
     var f_hs2fs = function(str) { return str.replace(/ /g, '\u3000'); }
     // katakana <-> hiragana
     var o_h2k = (function() {
-            var o = {};
-            for (var i = 0x3041; i <= 0x3094; i++) {
-                o[String.fromCharCode(i)] =
-                    String.fromCharCode(i - 0x3040 + 0x30A0);
-            }
-            return o;
-        })();
+        var o = {};
+        for (var i = 0x3041; i <= 0x3094; i++) {
+            o[String.fromCharCode(i)] =
+                String.fromCharCode(i - 0x3040 + 0x30A0);
+        }
+        return o;
+    })();
     var o_k2h = objectReverse(o_h2k);
     var f_h2k = function(str) {
         return str.replace(/[\u3041-\u3094]/g, function(m) {return o_h2k[m]});
@@ -192,9 +196,9 @@
      * Extend String.prototype iff ES5 is available
      */
     if (typeof(Object.defineProperty) === 'function') (function(obj, meth) {
-            var f2m = function(f) { return function() { return f(this) } };
-            for (var k in meth) if (!obj[k]) Object.defineProperty(
-                obj, k, {value: f2m(meth[k]), enumerable: false}
+        var f2m = function(f) { return function() { return f(this) } };
+        for (var k in meth) if (!obj[k]) Object.defineProperty(
+            obj, k, {value: f2m(meth[k]), enumerable: false}
         );
     })(String.prototype, {
         toZenkaku: f_h2z,
