@@ -1,5 +1,5 @@
 /*
- * $Id: hanzenkaku.js,v 0.2 2012/08/12 16:31:40 dankogai Exp dankogai $
+ * $Id: hanzenkaku.js,v 0.3 2012/08/12 18:47:53 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
