@@ -12,8 +12,8 @@ All functions are under the `HanZenKaku` namespace.
     HanZenKaku.z2h('コガイダン');         // ｺｶﾞｲﾀﾞﾝ
     HanZenKaku.hw2fw('dankogai');         // ｄａｎｋｏｇａｉ
     HanZenKaku.fw2hw('ｄａｎｋｏｇａｉ'); // dankogai
-    HanZenKaku.fs2hs('a　space');         // a space
-    HanZenKaku.hs2fs('a space');          // a　space
+    HanZenKaku.fs2hs('dan　kogai');       // dan kogai
+    HanZenKaku.hs2fs('dan kogai');        // dan　kogai
     HanZenKaku.h2k('こがいだん');         // コガイダン
     HanZenKaku.k2h('コガイダン');         // こがいだん
 
@@ -26,8 +26,8 @@ exteneded as follows:
     'コガイダン'.toHankaku();         // HanZenKaku.z2h('コガイダン')
     'dankogai'.toFullwidth();         // HanZenKaku.hw2fw('dankogai')
     'ｄａｎｋｏｇａｉ'.toHalfwidth(); // HanZenKaku.fw2hw('ｄａｎｋｏｇａｉ')
-    'a　space'.toHalfwidthSpace();    // HanZenKaku.fs2hs('a　space')
-    'a space'.toFullwidthSpace();     // HanZenKaku.hs2fs('a space')
+    'dan　kogai'.toHalfwidthSpace();  // HanZenKaku.fs2hs('dan　kogai')
+    'dan kogai'.toFullwidthSpace();   // HanZenKaku.hs2fs('dan kogai')
     'こがいだん'.toKatakana();        // HanZenKaku.h2k('こがいだん')
     'コガイダン'.toHiragana();        // HanZenKaku.k2h('コガイダン')
 
