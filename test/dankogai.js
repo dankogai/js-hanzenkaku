@@ -1,5 +1,5 @@
 /*
- * $id$
+ * $Id: dankogai.js,v 0.1 2012/08/13 05:30:12 dankogai Exp dankogai $
  *
  * use mocha to test me
  * http://visionmedia.github.com/mocha/
