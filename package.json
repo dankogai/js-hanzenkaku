@@ -1,0 +1,21 @@
+{
+  "name": "hanzenkaku",
+  "version": "0.0.7",
+  "description": "Hankaku-Zenkaku Translator in JS",
+  "main": "hanzenkaku.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dankogai/js-hanzenkaku.git"
+  },
+  "keywords": [
+    "Japanese"
+  ],
+  "author": "Dan Kogai (https://github.com/dankogai)",
+  "license": "BSD"
+}
