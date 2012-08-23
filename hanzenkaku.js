@@ -1,5 +1,5 @@
 /*
- * $Id: hanzenkaku.js,v 0.7 2012/08/13 05:51:37 dankogai Exp dankogai $
+ * $Id: hanzenkaku.js,v 0.8 2012/08/23 20:27:06 dankogai Exp dankogai $
  *
  *  Licensed under the MIT license.
  *  http://www.opensource.org/licenses/mit-license.php
@@ -211,10 +211,13 @@
             }
         };
         for (var k in meth) if (!obj[k]) Object.defineProperty(
-        obj, k, {
-            value: f2m(meth[k]),
-            enumerable: false
-        });
+            obj, k, {
+                value: f2m(meth[k]),
+                enumerable: false,
+                writable: true,
+                configurable: true
+            }
+        );
     })(String.prototype, {
         toZenkaku: f_h2z,
         toHankaku: f_z2h,
