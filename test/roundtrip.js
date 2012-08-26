@@ -8,13 +8,9 @@
 var assert;
 if (this['window'] !== this) {
     assert = require("assert");
+    HanZenKaku = require('../hanzenkaku.js').HanZenKaku;
 }
 var is = function (a, e, m) {
-    return function () {
-        assert.equal(a, e, m)
-    }
-},
-is = function (a, e, m) {
     return function () {
         assert.equal(a, e, m)
     }
@@ -143,27 +139,25 @@ o_h2z = objectReverse(o_z2h),
     o_k2h = objectReverse(o_h2k);
 
 // it seems node.js at travis does not allow String extension :-(
-if ('toZenkaku' in String.prototype) {
+with (HanZenKaku) {
 
 describe('toHankaku', function () {
-    for (var p in o_z2h) it(p + ':' + o_z2h[p], is(p.toHankaku(), o_z2h[p]));
+    for (var p in o_z2h) it(p + ':' + o_z2h[p], is(z2h(p), o_z2h[p]));
 });
 describe('toZenkaku', function () {
-    for (var p in o_h2z) it(p + ':' + o_h2z[p], is(p.toZenkaku(), o_h2z[p]));
+    for (var p in o_h2z) it(p + ':' + o_h2z[p], is(h2z(p), o_h2z[p]));
 });
 describe('toFullwidth', function () {
-    for (var p in o_hw2fw)
-        it(p + ':' + o_hw2fw[p], is(p.toFullwidth(), o_hw2fw[p]));
+    for (var p in o_hw2fw) it(p + ':' + o_hw2fw[p], is(hw2fw(p), o_hw2fw[p]));
 });
 describe('toHalfwidth', function () {
-    for (var p in o_fw2hw)
-        it(p + ':' + o_fw2hw[p], is(p.toHalfwidth(), o_fw2hw[p]));
+    for (var p in o_fw2hw) it(p + ':' + o_fw2hw[p], is(fw2hw(p), o_fw2hw[p]));
 });
 describe('toKatakana', function () {
-    for (var p in o_h2k) it(p + ':' + o_h2k[p], is(p.toKatakana(), o_h2k[p]));
+    for (var p in o_h2k) it(p + ':' + o_h2k[p], is(h2k(p), o_h2k[p]));
 });
 describe('toHiragana', function () {
-    for (var p in o_k2h) it(p + ':' + o_k2h[p], is(p.toHiragana(), o_k2h[p]));
+    for (var p in o_k2h) it(p + ':' + o_k2h[p], is(k2h(p), o_k2h[p]));
 });
 
 }
