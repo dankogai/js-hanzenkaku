@@ -9,6 +9,9 @@
   "scripts": {
     "test": "mocha"
   },
+" devDependencies": {
+   "mocha": "*"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/dankogai/js-hanzenkaku.git"
