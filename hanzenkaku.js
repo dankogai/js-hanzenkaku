@@ -126,12 +126,12 @@
     var o_h2z = objectReverse(o_z2h);
     var f_h2z = function (str) {
         return str.replace(re_h2z, function (m) {
-            return o_h2z[m]
+            return o_h2z[m];
         });
     };
     var f_z2h = function (str) {
         return str.replace(re_z2h, function (m) {
-            return o_z2h[m]
+            return o_z2h[m];
         });
     };
     // halfwidth <-> fullwidth
@@ -156,20 +156,20 @@
     var re_fw2hw = /[\uFF01-\uFFE6]/g;
     var f_hw2fw = function (str) {
         return str.replace(re_hw2fw, function (m) {
-            return o_hw2fw[m]
+            return o_hw2fw[m];
         });
-    }
+    };
     var f_fw2hw = function (str) {
         return str.replace(re_fw2hw, function (m) {
-            return o_fw2hw[m]
+            return o_fw2hw[m];
         });
-    }
+    };
     var f_fs2hs = function (str) {
         return str.replace(/\u3000/g, ' ');
-    }
+    };
     var f_hs2fs = function (str) {
         return str.replace(/ /g, '\u3000');
-    }
+    };
     // katakana <-> hiragana
     var o_h2k = (function () {
         var o = {};
@@ -181,12 +181,12 @@
     var o_k2h = objectReverse(o_h2k);
     var f_h2k = function (str) {
         return str.replace(/[\u3041-\u3094]/g, function (m) {
-            return o_h2k[m]
+            return o_h2k[m];
         });
     };
     var f_k2h = function (str) {
         return str.replace(/[\u30A1-\u30F4]/g, function (m) {
-            return o_k2h[m]
+            return o_k2h[m];
         });
     };
     // export
@@ -206,8 +206,8 @@
     if (typeof (Object.defineProperty) === 'function')(function (obj, meth) {
         var f2m = function (f) {
             return function () {
-                return f(this)
-            }
+                return f(this);
+            };
         };
         for (var k in meth) if (!obj[k]) Object.defineProperty(
             obj, k, {
