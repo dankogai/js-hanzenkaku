@@ -198,7 +198,8 @@
         fs2hs: f_fs2hs,
         hs2fs: f_hs2fs,
         h2k: f_h2k,
-        k2h: f_k2h
+        k2h: f_k2h,
+        version: '1.0.1'
     };
     /*
      * Extend String.prototype iff ES5 is available
